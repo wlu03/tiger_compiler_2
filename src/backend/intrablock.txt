@@ -1,0 +1,26 @@
+1. Split .s code in to basicblocks
+    parse the list and make blocks
+    a block starts at:
+    -the first instruction
+    -any label
+    -the instruction after a branch/jump/jr/syscall
+2. collect per instruciton use/def sets.
+    for each instruction in a block compute
+    - uses(inst): vritual reg reads by inst
+    - defs(inst): virtual reg written by inst 
+    Examples:
+        `li $v-local--i, 0` → uses: {}, defs: {v-local--i}
+        `add $v-local--mid`, `$v-param--lo`, `$v-param--hi` → uses: {v-param--lo, v-param--hi}, defs: {v-local--mid}
+        `sw $v-local--t`, `0($v-temp--addr)` → uses: {v-local--t, v-temp--addr} (defs: {})
+
+3. intra block liveness and live range score
+    compute live sets by standard backward data flow inside the block
+    liveOut[i] = ⋃ liveIn[s] for each successor s
+    liveIn[i]  = uses(i) ∪ (liveOut[i] − defs(i))
+
+    then assing each varaible a score (i.e. number of instrucitons it's live across) 
+
+4. pick home registers for top varaible
+    Sort vars in the block by score (desc), assign the first K to your resident set 
+
+5. preload homes that are used in the block
