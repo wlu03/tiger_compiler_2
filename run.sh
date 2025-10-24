@@ -10,13 +10,13 @@ set -euo pipefail
 
 usage() {
   echo "Usage: $0 path/to/file.ir path/to/out.s [--naive|--greedy]" >&2
-  echo "   or: $0 path/to/file.ir [--naive|--greedy]  # writes ./out.s" >&2
+  echo "   or: $0 path/to/file.ir [--naive|--greedy]  # writes ./output.s" >&2
   exit 1
 }
 
 if [ $# -eq 2 ]; then
   INPUT_IR="$1"
-  OUT_PATH="out.s"
+  OUT_PATH="output.s"
   MODE="$2"
 elif [ $# -eq 3 ]; then
   INPUT_IR="$1"
