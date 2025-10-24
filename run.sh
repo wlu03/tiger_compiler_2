@@ -1,20 +1,30 @@
 #!/bin/bash
 
 # CS 4240 Project - Run Script
-# Usage: run.sh path/to/file.ir [--naive|--greedy]
-# Produces: out.s
+# Usage:
+#   run.sh path/to/file.ir path/to/out.s [--naive|--greedy]
+#   run.sh path/to/file.ir [--naive|--greedy]   # defaults output to ./out.s
+# Produces: the provided out.s path (default ./out.s)
 
 set -euo pipefail
 
 usage() {
-  echo "Usage: $0 path/to/file.ir [--naive|--greedy]" >&2
+  echo "Usage: $0 path/to/file.ir path/to/out.s [--naive|--greedy]" >&2
+  echo "   or: $0 path/to/file.ir [--naive|--greedy]  # writes ./out.s" >&2
   exit 1
 }
 
-[ $# -eq 2 ] || usage
-
-INPUT_IR="$1"
-MODE="$2"
+if [ $# -eq 2 ]; then
+  INPUT_IR="$1"
+  OUT_PATH="out.s"
+  MODE="$2"
+elif [ $# -eq 3 ]; then
+  INPUT_IR="$1"
+  OUT_PATH="$2"
+  MODE="$3"
+else
+  usage
+fi
 
 case "$MODE" in
   --naive|--greedy) ;;
@@ -43,5 +53,7 @@ if [ ! -f output.s ]; then
   exit 1
 fi
 
-cp output.s out.s
-echo "Wrote out.s"
+# Ensure destination directory exists and copy
+mkdir -p "$(dirname "$OUT_PATH")"
+cp output.s "$OUT_PATH"
+echo "Wrote $OUT_PATH"
