@@ -2,15 +2,16 @@
 
 # CS 4240 Project - Run Script
 # Usage:
+#   run.sh path/to/file.ir [--naive|--greedy]
 #   run.sh path/to/file.ir path/to/out.s [--naive|--greedy]
-#   run.sh path/to/file.ir [--naive|--greedy]   # defaults output to <dir(file.ir)>/out.s
-# Produces: the provided out.s path (default alongside input IR)
+# Produces: the provided out.s path (default <dir(file.ir)>/out.s)
 
 set -euo pipefail
 
 usage() {
-  echo "Usage: $0 path/to/file.ir path/to/out.s [--naive|--greedy]" >&2
-  echo "   or: $0 path/to/file.ir [--naive|--greedy]  # writes <dir(file.ir)>/out.s" >&2
+  echo "Usage:" >&2
+  echo "  $0 path/to/file.ir [--naive|--greedy]" >&2
+  echo "  $0 path/to/file.ir path/to/out.s [--naive|--greedy]" >&2
   exit 1
 }
 
@@ -37,23 +38,28 @@ cd "$(dirname "$0")"
 # Build project
 ./build.sh
 
-# Select allocator
-if [ "$MODE" = "--greedy" ]; then
-  export ALLOCATOR=block
-else
-  unset ALLOCATOR || true
-fi
+# Generate MIPS assembly via Test2
+mkdir -p "$(dirname "$OUT_PATH")"
 
-# Generate MIPS assembly via Test2 (honors input IR and allocator flag)
-java -cp build/classes Test2 "$INPUT_IR" "$MODE"
-
-# Normalize output filename to out.s
-if [ ! -f output.s ]; then
-  echo "Error: expected output.s not found after generation" >&2
+# Prefer capturing stdout if Test2 prints assembly
+set +e
+java -cp build/classes Test2 "$INPUT_IR" "$MODE" >"$OUT_PATH"
+rc=$?
+set -e
+if [ $rc -ne 0 ]; then
+  echo "Error: codegen failed" >&2
   exit 1
 fi
 
-# Ensure destination directory exists and copy
-mkdir -p "$(dirname "$OUT_PATH")"
-cp output.s "$OUT_PATH"
+# If capture produced empty file but Test2 wrote a fixed name, fall back
+if [ ! -s "$OUT_PATH" ] && [ -s "output.s" ]; then
+  cp "output.s" "$OUT_PATH"
+fi
+
+# Final sanity check
+if [ ! -s "$OUT_PATH" ]; then
+  echo "Error: $OUT_PATH was not created or is empty" >&2
+  exit 1
+fi
+
 echo "Wrote $OUT_PATH"
