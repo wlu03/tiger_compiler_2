@@ -24,7 +24,7 @@ fi
 case "$MODE" in
   --naive|--greedy) ;;
   *) usage ;;
-escase
+esac
 
 # Run from repo root (folder containing this script)
 SCRIPT_DIR="$(cd -- "$(dirname "$0")" && pwd)"
