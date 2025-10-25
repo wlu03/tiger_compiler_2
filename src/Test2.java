@@ -33,10 +33,10 @@ public class Test2 {
 
         var mipsTranslations = IR2MIPSISelect.selectMipsInstructions(irProgram);
 
-        var mipsUnAllocatedText = IR2MIPSISelect.mipsTranslationToText(mipsTranslations);
-        try (PrintStream out = new PrintStream("output_unallocated.s")) {
-            out.println(mipsUnAllocatedText);
-        }
+//        var mipsUnAllocatedText = IR2MIPSISelect.mipsTranslationToText(mipsTranslations);
+//        try (PrintStream out = new PrintStream("output_unallocated.s")) {
+//            out.println(mipsUnAllocatedText);
+//        }
 
         var regAlloc = new ArrayList<MIPSTranslation>();
         for (MIPSTranslation trans : mipsTranslations) {

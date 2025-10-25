@@ -3,20 +3,20 @@
 # CS 4240 Project - Run Script
 # Usage:
 #   run.sh path/to/file.ir path/to/out.s [--naive|--greedy]
-#   run.sh path/to/file.ir [--naive|--greedy]   # defaults output to ./out.s
-# Produces: the provided out.s path (default ./out.s)
+#   run.sh path/to/file.ir [--naive|--greedy]   # defaults output to <dir(file.ir)>/out.s
+# Produces: the provided out.s path (default alongside input IR)
 
 set -euo pipefail
 
 usage() {
   echo "Usage: $0 path/to/file.ir path/to/out.s [--naive|--greedy]" >&2
-  echo "   or: $0 path/to/file.ir [--naive|--greedy]  # writes ./output.s" >&2
+  echo "   or: $0 path/to/file.ir [--naive|--greedy]  # writes <dir(file.ir)>/out.s" >&2
   exit 1
 }
 
 if [ $# -eq 2 ]; then
   INPUT_IR="$1"
-  OUT_PATH="output.s"
+  OUT_PATH="$(dirname "$1")/out.s"
   MODE="$2"
 elif [ $# -eq 3 ]; then
   INPUT_IR="$1"
