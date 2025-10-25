@@ -53,4 +53,11 @@ if [[ ! -s "$OUT_PATH" ]]; then
   exit 1
 fi
 
+# Also copy to repo root for convenience
+ROOT_OUT="$SCRIPT_DIR/out.s"
+if [[ "$OUT_PATH" != "$ROOT_OUT" ]]; then
+  cp "$OUT_PATH" "$ROOT_OUT"
+fi
+
 echo "Wrote $OUT_PATH"
+echo "Wrote $ROOT_OUT"
