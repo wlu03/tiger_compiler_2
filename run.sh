@@ -34,32 +34,18 @@ cd "$SCRIPT_DIR"
 ./build.sh
 
 # Ensure output directory exists
-mkdir -p "$(dirname "$OUT_PATH")"
+OUT_DIR="$(dirname "$OUT_PATH")"
+mkdir -p "$OUT_DIR"
 
-# Try 1: if Test2 supports an explicit out path, use it.
-# (Adjust the main class name/package if needed.)
-if java -cp build/classes Test2 "$INPUT_IR" "$MODE" "$OUT_PATH" 2>/dev/null; then
-  :
-else
-  # Try 2: capture stdout (if Test2 prints assembly)
-  if java -cp build/classes Test2 "$INPUT_IR" "$MODE" > "$OUT_PATH"; then
-    :
-  else
-    echo "Error: Java codegen failed" >&2
-    exit 1
-  fi
-fi
+# Run codegen in the output directory so Test2's output.s lands there
+# Compute absolute path to input IR (portable realpath)
+ABS_INPUT_DIR="$(cd -- "$(dirname "$INPUT_IR")" && pwd)"
+ABS_INPUT_IR="$ABS_INPUT_DIR/$(basename "$INPUT_IR")"
 
-# Fallback: if OUT_PATH is empty (some codegens write to output.s instead),
-# move a generated file if present.
-if [[ ! -s "$OUT_PATH" ]]; then
-  for CAND in "out.s" "output.s" "build/out.s" "build/output.s"; do
-    if [[ -s "$CAND" ]]; then
-      cp "$CAND" "$OUT_PATH"
-      break
-    fi
-  done
-fi
+(
+  cd "$OUT_DIR"
+  java -cp "$SCRIPT_DIR/build/classes" Test2 "$ABS_INPUT_IR" "$MODE"
+)
 
 # Final check for the grader
 if [[ ! -s "$OUT_PATH" ]]; then
