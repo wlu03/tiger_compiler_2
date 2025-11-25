@@ -1,235 +1,144 @@
 .text
 main:
-  addi $sp, $sp, -72
-  sw $ra, 68($sp)
-  sw $fp, 64($sp)
-  addi $fp, $sp, 64
-  li $t1, 0
-  sw $t1, -24($fp)
-  li $t1, 2
-  sw $t1, -12($fp)
-  li $t1, 3
-  sw $t1, -16($fp)
-  li $t1, 6
-  sw $t1, -20($fp)
-  li $t1, 0
-  sw $t1, -56($fp)
+  addi $sp, $sp, -32
+  move $fp, $sp
+  sw $s6, 0($sp)
+  sw $s3, 4($sp)
+  sw $s5, 8($sp)
+  sw $s0, 12($sp)
+  sw $s4, 16($sp)
+  sw $s2, 20($sp)
+  sw $s1, 24($sp)
+  li $s5, 0
+  li $s3, 2
+  li $s5, 3
+  li $s0, 6
+  li $s0, 0
   li $v0, 5
   syscall
-  lw $t2, -28($fp)
-  move $t2, $v0
-  sw $t2, -28($fp)
+  move $s4, $v0
   li $t9, 1
-  lw $t2, -28($fp)
-  bgt $t2, $t9, label0_main
-  li $t1, 0
-  sw $t1, -32($fp)
-  lw $t1, -32($fp)
-  lw $t2, -8($fp)
-  move $t2, $t1
-  sw $t2, -8($fp)
+  bgt $s4, $t9, label0_main
+  li $s6, 0
   j print_main
 label0_main:
   li $t9, 3
-  lw $t2, -28($fp)
-  bgt $t2, $t9, label1_main
-  li $t1, 1
-  sw $t1, -32($fp)
-  lw $t1, -32($fp)
-  lw $t2, -8($fp)
-  move $t2, $t1
-  sw $t2, -8($fp)
+  bgt $s4, $t9, label1_main
+  li $s6, 1
   j print_main
 label1_main:
-  lw $t1, -28($fp)
-  move $a0, $t1
-  lw $t1, -12($fp)
-  move $a1, $t1
+  move $a0, $s4
+  move $a1, $s3
   addi $sp, $sp, -8
   sw $fp, 0($sp)
   sw $ra, 4($sp)
   jal divisible
-  lw $t2, -40($fp)
-  move $t2, $v0
-  sw $t2, -40($fp)
+  move $s3, $v0
   lw $fp, 0($sp)
   lw $ra, 4($sp)
   addi $sp, $sp, 8
   addi $sp, $sp, 0
-  lw $t1, -56($fp)
-  lw $t2, -32($fp)
-  move $t2, $t1
-  sw $t2, -32($fp)
-  lw $t1, -32($fp)
-  lw $t2, -8($fp)
-  move $t2, $t1
-  sw $t2, -8($fp)
+  move $s6, $s0
   li $t9, 1
-  lw $t2, -40($fp)
-  beq $t2, $t9, label2_main
-  lw $t1, -28($fp)
-  move $a0, $t1
-  lw $t1, -16($fp)
-  move $a1, $t1
+  beq $s3, $t9, label2_main
+  move $a0, $s4
+  move $a1, $s5
   addi $sp, $sp, -8
   sw $fp, 0($sp)
   sw $ra, 4($sp)
   jal divisible
-  lw $t2, -40($fp)
-  move $t2, $v0
-  sw $t2, -40($fp)
+  move $s3, $v0
   lw $fp, 0($sp)
   lw $ra, 4($sp)
   addi $sp, $sp, 8
   addi $sp, $sp, 0
-  lw $t1, -56($fp)
-  lw $t2, -32($fp)
-  move $t2, $t1
-  sw $t2, -32($fp)
-  lw $t1, -32($fp)
-  lw $t2, -8($fp)
-  move $t2, $t1
-  sw $t2, -8($fp)
+  move $s6, $s0
   li $t9, 1
-  lw $t2, -40($fp)
-  beq $t2, $t9, label2_main
+  beq $s3, $t9, label2_main
   j label3_main
 label2_main:
   j print_main
 label3_main:
-  li $t1, 5
-  sw $t1, -24($fp)
+  li $s5, 5
 loop_main:
-  lw $t1, -36($fp)
-  lw $t2, -24($fp)
-  lw $t3, -24($fp)
-  mul $t1, $t2, $t3
-  sw $t1, -36($fp)
-  lw $t1, -28($fp)
-  lw $t2, -36($fp)
-  bgt $t2, $t1, exit_main
-  lw $t1, -28($fp)
-  move $a0, $t1
-  lw $t1, -24($fp)
-  move $a1, $t1
+  mul $s3, $s5, $s5
+  bgt $s3, $s4, exit_main
+  move $a0, $s4
+  move $a1, $s5
   addi $sp, $sp, -8
   sw $fp, 0($sp)
   sw $ra, 4($sp)
   jal divisible
-  lw $t2, -40($fp)
-  move $t2, $v0
-  sw $t2, -40($fp)
+  move $s3, $v0
   lw $fp, 0($sp)
   lw $ra, 4($sp)
   addi $sp, $sp, 8
   addi $sp, $sp, 0
-  lw $t1, -56($fp)
-  lw $t2, -32($fp)
-  move $t2, $t1
-  sw $t2, -32($fp)
-  li $t1, 0
-  sw $t1, -48($fp)
-  li $t1, 0
-  sw $t1, -60($fp)
-  lw $t1, -32($fp)
-  lw $t2, -8($fp)
-  move $t2, $t1
-  sw $t2, -8($fp)
+  move $s6, $s0
+  li $s2, 0
+  li $s1, 0
   li $t9, 1
-  lw $t2, -40($fp)
-  beq $t2, $t9, label2_main
-  lw $t1, -24($fp)
-  lw $t2, -44($fp)
-  addi $t2, $t1, 2
-  sw $t2, -44($fp)
-  lw $t1, -28($fp)
-  move $a0, $t1
-  lw $t1, -44($fp)
-  move $a1, $t1
+  beq $s3, $t9, label2_main
+  addi $s3, $s5, 2
+  move $a0, $s4
+  move $a1, $s3
   addi $sp, $sp, -8
   sw $fp, 0($sp)
   sw $ra, 4($sp)
   jal divisible
-  lw $t2, -40($fp)
-  move $t2, $v0
-  sw $t2, -40($fp)
+  move $s3, $v0
   lw $fp, 0($sp)
   lw $ra, 4($sp)
   addi $sp, $sp, 8
   addi $sp, $sp, 0
-  lw $t1, -56($fp)
-  lw $t2, -32($fp)
-  move $t2, $t1
-  sw $t2, -32($fp)
-  lw $t1, -32($fp)
-  lw $t2, -8($fp)
-  move $t2, $t1
-  sw $t2, -8($fp)
+  move $s6, $s0
   li $t9, 1
-  lw $t2, -40($fp)
-  beq $t2, $t9, label2_main
-  lw $t1, -24($fp)
-  addi $t1, $t1, 6
-  sw $t1, -24($fp)
+  beq $s3, $t9, label2_main
+  addi $s5, $s5, 6
   j loop_main
 exit_main:
-  lw $t1, -48($fp)
-  lw $t2, -52($fp)
-  move $t2, $t1
-  sw $t2, -52($fp)
-  lw $t1, -60($fp)
-  lw $t2, -32($fp)
-  move $t2, $t1
-  sw $t2, -32($fp)
-  li $t1, 1
-  sw $t1, -32($fp)
-  lw $t1, -32($fp)
-  lw $t2, -8($fp)
-  move $t2, $t1
-  sw $t2, -8($fp)
+  move $s0, $s2
+  move $s6, $s1
+  li $s6, 1
 print_main:
-  lw $t1, -8($fp)
-  move $a0, $t1
+  move $a0, $s6
   li $v0, 1
   syscall
   li $a0, 10
   li $v0, 11
   syscall
+  lw $s6, 0($sp)
+  lw $s3, 4($sp)
+  lw $s5, 8($sp)
+  lw $s0, 12($sp)
+  lw $s4, 16($sp)
+  lw $s2, 20($sp)
+  lw $s1, 24($sp)
+  addi $sp, $sp, 32
   li $v0, 10
   syscall
 divisible:
-  addi $sp, $sp, -32
-  sw $ra, 28($sp)
-  sw $fp, 24($sp)
-  addi $fp, $sp, 24
-  lw $t2, -8($fp)
-  move $t2, $a0
-  sw $t2, -8($fp)
-  lw $t2, -12($fp)
-  move $t2, $a1
-  sw $t2, -12($fp)
-  lw $t1, -16($fp)
-  lw $t2, -8($fp)
-  lw $t3, -12($fp)
-  div $t1, $t2, $t3
-  sw $t1, -16($fp)
-  lw $t1, -16($fp)
-  lw $t2, -16($fp)
-  lw $t3, -12($fp)
-  mul $t1, $t2, $t3
-  sw $t1, -16($fp)
-  lw $t1, -16($fp)
-  lw $t2, -8($fp)
-  bne $t2, $t1, label0_divisible
+  addi $sp, $sp, -16
+  move $fp, $sp
+  sw $s2, 0($sp)
+  sw $s1, 4($sp)
+  sw $s0, 8($sp)
+  move $s1, $a0
+  move $s0, $a1
+  div $s2, $s1, $s0
+  mul $s2, $s2, $s0
+  bne $s1, $s2, label0_divisible
   li $v0, 1
-  lw $ra, 28($sp)
-  lw $fp, 24($sp)
-  addi $sp, $sp, 32
+  lw $s2, 0($sp)
+  lw $s1, 4($sp)
+  lw $s0, 8($sp)
+  addi $sp, $sp, 16
   jr $ra
 label0_divisible:
   li $v0, 0
-  lw $ra, 28($sp)
-  lw $fp, 24($sp)
-  addi $sp, $sp, 32
+  lw $s2, 0($sp)
+  lw $s1, 4($sp)
+  lw $s0, 8($sp)
+  addi $sp, $sp, 16
   jr $ra
 
