@@ -3,8 +3,8 @@ set -euo pipefail
 
 usage() {
   echo "Usage:" >&2
-  echo "  $0 path/to/file.ir path/to/out.s [--naive|--greedy|-o]" >&2
-  echo "  $0 path/to/file.ir [--naive|--greedy|-o]   # writes <dir(file.ir)>/out.s" >&2
+  echo "  $0 path/to/file.ir path/to/out.s [--naive|--greedy|--opt]" >&2
+  echo "  $0 path/to/file.ir [--naive|--greedy|--opt]   # writes <dir(file.ir)>/out.s" >&2
   exit 1
 }
 
@@ -22,7 +22,7 @@ else
 fi
 
 case "$MODE" in
-  --naive|--greedy|-o) ;;
+  --naive|--greedy|--opt|-o) ;;
   *) usage ;;
 esac
 

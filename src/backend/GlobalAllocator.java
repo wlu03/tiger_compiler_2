@@ -10,9 +10,9 @@ import mips.operand.Addr;
 import mips.operand.Imm;
 import mips.operand.MIPSOperand;
 import mips.operand.Register;
-import opt.ChaitinBriggsColoring;
-import opt.InterferenceGraph;
-import opt.Liveness;
+import ds.ChaitinBriggsColoring;
+import ds.InterferenceGraph;
+import ds.Liveness;
 
 import java.util.*;
 

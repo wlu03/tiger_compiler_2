@@ -1,4 +1,4 @@
-package opt;
+package ds;
 
 import ds.BasicBlock;
 import ds.ControlFlowGraph;

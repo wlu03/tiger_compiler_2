@@ -1,4 +1,4 @@
-package opt;
+package ds;
 
 import ds.ControlFlowGraph;
 import ir.IRFunction;

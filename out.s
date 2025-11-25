@@ -1,36 +1,51 @@
 .text
 main:
-  move $fp, $sp
   addi $sp, $sp, -432
-  sw $s3, 0($sp)
-  sw $s2, 4($sp)
-  sw $s1, 8($sp)
-  sw $s0, 12($sp)
-  li $s2, 0
+  sw $ra, 428($sp)
+  sw $fp, 424($sp)
+  addi $fp, $sp, 424
+  li $t1, 0
+  sw $t1, -408($fp)
   li $v0, 5
   syscall
-  move $s0, $v0
+  lw $t2, -416($fp)
+  move $t2, $v0
+  sw $t2, -416($fp)
   li $t9, 100
-  bgt $s0, $t9, return_main
+  lw $t2, -416($fp)
+  bgt $t2, $t9, return_main
   li $t9, 1
-  sub $s0, $s0, $t9
-  li $s1, 0
+  lw $t1, -416($fp)
+  lw $t2, -416($fp)
+  sub $t1, $t2, $t9
+  sw $t1, -416($fp)
+  li $t1, 0
+  sw $t1, -412($fp)
 loop0_main:
-  bgt $s1, $s0, exit0_main
+  lw $t1, -416($fp)
+  lw $t2, -412($fp)
+  bgt $t2, $t1, exit0_main
   li $v0, 5
   syscall
-  move $s2, $v0
-  sll $t8, $s1, 2
-  addi $t7, $fp, 0
-  sub $t6, $t7, $t8
-  sw $s2, 0($t6)
-  addi $s1, $s1, 1
+  lw $t2, -408($fp)
+  move $t2, $v0
+  sw $t2, -408($fp)
+  lw $t1, -412($fp)
+  sll $t8, $t1, 2
+  addi $t9, $fp, 0
+  sub $t9, $t9, $t8
+  lw $t1, -408($fp)
+  sw $t1, 0($t9)
+  lw $t1, -412($fp)
+  addi $t1, $t1, 1
+  sw $t1, -412($fp)
   j loop0_main
 exit0_main:
   move $a0, $fp
   addi $a0, $a0, 0
   li $a1, 0
-  move $a2, $s0
+  lw $t1, -416($fp)
+  move $a2, $t1
   addi $sp, $sp, -8
   sw $fp, 0($sp)
   sw $ra, 4($sp)
@@ -39,88 +54,151 @@ exit0_main:
   lw $ra, 4($sp)
   addi $sp, $sp, 8
   addi $sp, $sp, 0
-  li $s1, 0
+  li $t1, 0
+  sw $t1, -412($fp)
 loop1_main:
-  bgt $s1, $s0, exit1_main
-  sll $t8, $s1, 2
-  addi $t7, $fp, 0
-  sub $t6, $t7, $t8
-  lw $s2, 0($t6)
-  move $a0, $s2
+  lw $t1, -416($fp)
+  lw $t2, -412($fp)
+  bgt $t2, $t1, exit1_main
+  lw $t1, -412($fp)
+  sll $t8, $t1, 2
+  addi $t9, $fp, 0
+  sub $t9, $t9, $t8
+  lw $t1, -408($fp)
+  lw $t1, 0($t9)
+  sw $t1, -408($fp)
+  lw $t1, -408($fp)
+  move $a0, $t1
   li $v0, 1
   syscall
   li $a0, 10
   li $v0, 11
   syscall
-  addi $s1, $s1, 1
+  lw $t1, -412($fp)
+  addi $t1, $t1, 1
+  sw $t1, -412($fp)
   j loop1_main
 exit1_main:
 return_main:
-  lw $s3, 0($sp)
-  lw $s2, 4($sp)
-  lw $s1, 8($sp)
-  lw $s0, 12($sp)
-  addi $sp, $sp, 432
   li $v0, 10
   syscall
 quicksort:
-  move $fp, $sp
   addi $sp, $sp, -64
-  sw $s5, 0($sp)
-  sw $s6, 4($sp)
-  sw $s4, 8($sp)
-  sw $s7, 12($sp)
-  sw $s3, 16($sp)
-  sw $s1, 20($sp)
-  sw $s0, 24($sp)
-  sw $s2, 28($sp)
-  move $s5, $a0
-  move $s4, $a1
-  move $s6, $a2
-  li $s2, 0
-  li $s0, 0
-  bge $s4, $s6, end_quicksort
-  add $s0, $s4, $s6
+  sw $ra, 60($sp)
+  sw $fp, 56($sp)
+  addi $fp, $sp, 56
+  lw $t2, -8($fp)
+  move $t2, $a0
+  sw $t2, -8($fp)
+  lw $t2, -12($fp)
+  move $t2, $a1
+  sw $t2, -12($fp)
+  lw $t2, -16($fp)
+  move $t2, $a2
+  sw $t2, -16($fp)
+  li $t1, 0
+  sw $t1, -44($fp)
+  li $t1, 0
+  sw $t1, -48($fp)
+  lw $t1, -16($fp)
+  lw $t2, -12($fp)
+  bge $t2, $t1, end_quicksort
+  lw $t1, -36($fp)
+  lw $t2, -12($fp)
+  lw $t3, -16($fp)
+  add $t1, $t2, $t3
+  sw $t1, -36($fp)
   li $t9, 2
-  div $s0, $s0, $t9
-  sll $t8, $s0, 2
-  sub $t6, $s5, $t8
-  lw $s1, 0($t6)
+  lw $t1, -36($fp)
+  lw $t2, -36($fp)
+  div $t1, $t2, $t9
+  sw $t1, -36($fp)
+  lw $t1, -36($fp)
+  sll $t8, $t1, 2
+  lw $t2, -8($fp)
+  sub $t9, $t2, $t8
+  lw $t1, -40($fp)
+  lw $t1, 0($t9)
+  sw $t1, -40($fp)
   li $t9, 1
-  sub $s2, $s4, $t9
-  addi $s0, $s6, 1
+  lw $t1, -44($fp)
+  lw $t2, -12($fp)
+  sub $t1, $t2, $t9
+  sw $t1, -44($fp)
+  lw $t1, -16($fp)
+  lw $t2, -48($fp)
+  addi $t2, $t1, 1
+  sw $t2, -48($fp)
 loop0_quicksort:
 loop1_quicksort:
-  addi $s2, $s2, 1
-  sll $t8, $s2, 2
-  sub $t6, $s5, $t8
-  lw $s3, 0($t6)
-  move $s7, $s3
-  blt $s7, $s1, loop1_quicksort
+  lw $t1, -44($fp)
+  addi $t1, $t1, 1
+  sw $t1, -44($fp)
+  lw $t1, -44($fp)
+  sll $t8, $t1, 2
+  lw $t2, -8($fp)
+  sub $t9, $t2, $t8
+  lw $t1, -32($fp)
+  lw $t1, 0($t9)
+  sw $t1, -32($fp)
+  lw $t1, -32($fp)
+  lw $t2, -20($fp)
+  move $t2, $t1
+  sw $t2, -20($fp)
+  lw $t1, -40($fp)
+  lw $t2, -20($fp)
+  blt $t2, $t1, loop1_quicksort
 loop2_quicksort:
   li $t9, 1
-  sub $s0, $s0, $t9
-  sll $t8, $s0, 2
-  sub $t6, $s5, $t8
-  lw $s3, 0($t6)
-  bgt $s3, $s1, loop2_quicksort
-  bge $s2, $s0, exit0_quicksort
-  sll $t8, $s0, 2
-  sub $t6, $s5, $t8
-  sw $s7, 0($t6)
-  sll $t8, $s2, 2
-  sub $t6, $s5, $t8
-  sw $s3, 0($t6)
+  lw $t1, -48($fp)
+  lw $t2, -48($fp)
+  sub $t1, $t2, $t9
+  sw $t1, -48($fp)
+  lw $t1, -48($fp)
+  sll $t8, $t1, 2
+  lw $t2, -8($fp)
+  sub $t9, $t2, $t8
+  lw $t1, -32($fp)
+  lw $t1, 0($t9)
+  sw $t1, -32($fp)
+  lw $t1, -32($fp)
+  lw $t2, -24($fp)
+  move $t2, $t1
+  sw $t2, -24($fp)
+  lw $t1, -40($fp)
+  lw $t2, -24($fp)
+  bgt $t2, $t1, loop2_quicksort
+  lw $t1, -48($fp)
+  lw $t2, -44($fp)
+  bge $t2, $t1, exit0_quicksort
+  lw $t1, -48($fp)
+  sll $t8, $t1, 2
+  lw $t2, -8($fp)
+  sub $t9, $t2, $t8
+  lw $t1, -20($fp)
+  sw $t1, 0($t9)
+  lw $t1, -44($fp)
+  sll $t8, $t1, 2
+  lw $t2, -8($fp)
+  sub $t9, $t2, $t8
+  lw $t1, -24($fp)
+  sw $t1, 0($t9)
   j loop0_quicksort
 exit0_quicksort:
-  addi $s1, $s0, 1
+  lw $t1, -48($fp)
+  lw $t2, -28($fp)
+  addi $t2, $t1, 1
+  sw $t2, -28($fp)
   addi $sp, $sp, -12
   sw $a0, 0($sp)
   sw $a1, 4($sp)
   sw $a2, 8($sp)
-  move $a0, $s5
-  move $a1, $s4
-  move $a2, $s0
+  lw $t1, -8($fp)
+  move $a0, $t1
+  lw $t1, -12($fp)
+  move $a1, $t1
+  lw $t1, -48($fp)
+  move $a2, $t1
   addi $sp, $sp, -8
   sw $fp, 0($sp)
   sw $ra, 4($sp)
@@ -132,14 +210,19 @@ exit0_quicksort:
   lw $a1, 4($sp)
   lw $a2, 8($sp)
   addi $sp, $sp, 12
-  addi $s0, $s0, 1
+  lw $t1, -48($fp)
+  addi $t1, $t1, 1
+  sw $t1, -48($fp)
   addi $sp, $sp, -12
   sw $a0, 0($sp)
   sw $a1, 4($sp)
   sw $a2, 8($sp)
-  move $a0, $s5
-  move $a1, $s0
-  move $a2, $s6
+  lw $t1, -8($fp)
+  move $a0, $t1
+  lw $t1, -48($fp)
+  move $a1, $t1
+  lw $t1, -16($fp)
+  move $a2, $t1
   addi $sp, $sp, -8
   sw $fp, 0($sp)
   sw $ra, 4($sp)
@@ -152,14 +235,8 @@ exit0_quicksort:
   lw $a2, 8($sp)
   addi $sp, $sp, 12
 end_quicksort:
-  lw $s5, 0($sp)
-  lw $s6, 4($sp)
-  lw $s4, 8($sp)
-  lw $s7, 12($sp)
-  lw $s3, 16($sp)
-  lw $s1, 20($sp)
-  lw $s0, 24($sp)
-  lw $s2, 28($sp)
+  lw $ra, 60($sp)
+  lw $fp, 56($sp)
   addi $sp, $sp, 64
   jr $ra
 

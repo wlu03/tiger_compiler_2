@@ -10,7 +10,7 @@ public class Test2 {
             throws IOException, IRException
     {
         if (args.length < 1 || args.length > 2) {
-            System.err.println("Usage: java Test2 <path/to/program.ir> [--naive|--greedy|-o]");
+            System.err.println("Usage: java Test2 <path/to/program.ir> [--naive|--greedy|--opt]");
             System.exit(1);
         }
 
@@ -21,12 +21,12 @@ public class Test2 {
         Mode selected;
         if (mode.equalsIgnoreCase("--block") || mode.equalsIgnoreCase("--greedy")) {
             selected = Mode.BLOCK;
-        } else if (mode.equalsIgnoreCase("-o")) {
+        } else if (mode.equalsIgnoreCase("--opt") || mode.equalsIgnoreCase("-o")) {
             selected = Mode.GLOBAL;
         } else if (mode.equalsIgnoreCase("--naive")) {
             selected = Mode.NAIVE;
         } else {
-            System.err.println("Unknown mode: " + mode + ". Use --naive, --greedy, or -o");
+            System.err.println("Unknown mode: " + mode + ". Use --naive, --greedy, or --opt");
             System.exit(1);
             return;
         }

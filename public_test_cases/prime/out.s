@@ -1,7 +1,7 @@
 .text
 main:
-  addi $sp, $sp, -32
   move $fp, $sp
+  addi $sp, $sp, -88
   sw $s6, 0($sp)
   sw $s3, 4($sp)
   sw $s5, 8($sp)
@@ -114,12 +114,12 @@ print_main:
   lw $s4, 16($sp)
   lw $s2, 20($sp)
   lw $s1, 24($sp)
-  addi $sp, $sp, 32
+  addi $sp, $sp, 88
   li $v0, 10
   syscall
 divisible:
-  addi $sp, $sp, -16
   move $fp, $sp
+  addi $sp, $sp, -16
   sw $s2, 0($sp)
   sw $s1, 4($sp)
   sw $s0, 8($sp)
